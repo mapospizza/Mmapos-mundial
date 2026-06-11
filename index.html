@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html><html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -255,7 +254,7 @@
 
     <!-- Panel de admin protegido -->
     <div id="admin-locked" style="margin-top:14px;">
-      <button class="btn-reset" style="border-color:rgba(240,230,214,0.22);color:rgba(240,230,214,0.45);" onclick="mostrarLoginAdmin()">🔒 Ver códigos (equipo Mapo's)</button>
+      <button class="btn-reset" style="border-color:rgba(240,230,214,0.22);color:rgba(240,230,214,0.45);" onclick="mostrarLoginAdmin()">🔒 Panel del equipo</button>
     </div>
 
     <div id="admin-login" style="display:none;margin-top:14px;background:rgba(0,0,0,0.2);border:0.5px solid rgba(240,230,214,0.1);border-radius:14px;padding:16px;">
@@ -269,14 +268,9 @@
     </div>
 
     <div id="admin-panel" style="display:none;margin-top:14px;">
-      <div class="codigos-box">
-        <div class="codigos-label">Códigos por semana &mdash; solo equipo Mapo's</div>
-        <div class="codigos-grid">
-          <div class="codigo-item"><div class="codigo-fecha">Sem. 1 &mdash; 11 Jun</div><div class="codigo-val">MAPOS11</div></div>
-          <div class="codigo-item"><div class="codigo-fecha">Sem. 2 &mdash; 18 Jun</div><div class="codigo-val">MAPOS18</div></div>
-          <div class="codigo-item"><div class="codigo-fecha">Sem. 3 &mdash; 20 Jun</div><div class="codigo-val">MAPOS20</div></div>
-          <div class="codigo-item"><div class="codigo-fecha">Sem. 4 &mdash; 26 Jun</div><div class="codigo-val">MAPOS26</div></div>
-        </div>
+      <div style="background:rgba(0,0,0,0.18);border:0.5px solid rgba(240,230,214,0.09);border-radius:14px;padding:16px 18px;">
+        <div style="font-size:11px;color:rgba(240,230,214,0.35);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;">Panel activo — equipo Mapo's</div>
+        <div style="font-size:13px;color:rgba(240,230,214,0.55);line-height:1.6;">Usa la app interna para registrar visitas y canjear premios.</div>
       </div>
       <button class="btn-reset" style="margin-top:8px;" onclick="cerrarAdmin()">🔒 Cerrar panel</button>
     </div>
@@ -307,7 +301,7 @@
 </div>
 
 <script>
-  const CODIGOS={'MAPOS11':1,'MAPOS18':2,'MAPOS20':3,'MAPOS26':4};
+  const CODIGOS={'PAPOCC11':1,'PAPOMC18':2,'PAPOTJ20':3,'PAPOUE26':4};
   let visitas=JSON.parse(localStorage.getItem('mapos_v4')||'[]');
   let nombreCliente=localStorage.getItem('mapos_nombre')||'';
   let clienteId=localStorage.getItem('mapos_id')||generarId();
@@ -403,6 +397,15 @@
   }
 
   function cerrarOverlay(){
+    // Abrir Google Form con datos del cliente prellenados
+    const hoy=new Date();
+    const fecha=hoy.getDate()+'/'+(hoy.getMonth()+1)+'/'+hoy.getFullYear();
+    const formUrl='https://docs.google.com/forms/d/e/1FAIpQLScUJcc9mWnvelHDtQC0Jx4hRVH-5LzDO0cWDBjMvJgtwEO-Hw/viewform?usp=pp_url'
+      +'&entry.262806279='+encodeURIComponent(nombreCliente)
+      +'&entry.1935465142='+encodeURIComponent(clienteId)
+      +'&entry.1744398745='+encodeURIComponent(fecha)
+      +'&entry.404823414='+encodeURIComponent('Pizza deep dish x2 canjeada');
+    window.open(formUrl,'_blank');
     document.getElementById('overlay').classList.remove('show');
     visitas=[];nombreCliente='';
     localStorage.removeItem('mapos_v4');localStorage.removeItem('mapos_nombre');localStorage.removeItem('mapos_id');
